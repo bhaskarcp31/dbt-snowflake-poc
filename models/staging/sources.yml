@@ -1,0 +1,143 @@
+version: 2
+
+sources:
+  - name: raw_tables
+    database: E_COMMERCE_DB
+    schema: raw
+
+    tables:
+
+      # =========================
+      # CUSTOMERS
+      # =========================
+      - name: customers
+        loaded_at_field: updated_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+
+      # =========================
+      # ORDERS
+      # =========================
+      - name: orders
+        loaded_at_field: updated_at
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+
+          - name: customer_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_tables', 'customers')
+                  field: customer_id
+
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['placed', 'shipped', 'delivered', 'cancelled']
+
+      # =========================
+      # ORDER ITEMS
+      # =========================
+      - name: order_items
+        
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_tables', 'orders')
+                  field: order_id
+
+          - name: product_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_tables', 'products')
+                  field: product_id
+
+      # =========================
+      # PAYMENTS
+      # =========================
+      - name: payments
+        
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_tables', 'orders')
+                  field: order_id
+
+          - name: payment_method
+            tests:
+              - accepted_values:
+                  values: ['Credit Card', 'Debit Card', 'UPI', 'Net Banking', 'Cash on Delivery']
+
+      # =========================
+      # PRODUCTS
+      # =========================
+      - name: products
+        
+        columns:
+          - name: product_id
+            tests:
+              - not_null
+              - unique
+
+      # =========================
+      # REVIEWS
+      # =========================
+      - name: reviews
+        
+        columns:
+          - name: product_id
+            tests:
+              - relationships:
+                  to: source('raw_tables', 'products')
+                  field: product_id
+
+          - name: rating
+            tests:
+              - accepted_values:
+                  values: [1, 2, 3, 4, 5]
+
+      # =========================
+      # CUSTOMER ADDRESSES
+      # =========================
+      - name: customer_addresses
+        
+        columns:
+          - name: customer_id
+            tests:
+              - relationships:
+                  to: source('raw_tables', 'customers')
+                  field: customer_id
+
+      # =========================
+      # SHIPMENTS
+      # =========================
+      - name: shipments
+        loaded_at_field: created_at
+        columns:
+          - name: order_id
+            tests:
+              - relationships:
+                  to: source('raw_tables', 'orders')
+                  field: order_id
+
+          - name: shipment_status
+            tests:
+              - accepted_values:
+                  values: ['pending', 'shipped', 'in_transit', 'delivered']

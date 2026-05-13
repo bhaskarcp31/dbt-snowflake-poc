@@ -1,0 +1,78 @@
+dbt_project:
+  outputs:
+    dev:
+      account: DORFMNR-EB12153
+      database: AIRBNB_DB
+      password: dbtPassword123
+      role: DE_TRANSFORM
+      schema: RAW
+      threads: 1
+      type: snowflake
+      user: dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
+dbt_project_new:
+  outputs:
+    dev:
+      account: DORFMNR-EB12153
+      database: DBT_PRACTICE_DB
+      password: dbtPassword123
+      role: DE_TRANSFORM
+      schema: DEV
+      threads: 1
+      type: snowflake
+      user: dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
+dbtdeproject:
+  outputs:
+    dev:
+      account: JRBLQGL-AC43676
+      database: AIRBNB_DB
+      password: dbtPassword123
+      role: DE_TRANSFORM
+      schema: raw
+      threads: 1
+      type: snowflake
+      user: de_dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
+dbtlearn:
+  outputs:
+    dev:
+      account: IOULXUO-MH71331
+      database: AIRBNB_DB
+      password: Suryatechypro2025
+      role: DE_TRANSFORM
+      schema: DEV
+      threads: 1
+      type: snowflake
+      user: de_dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
+dbtproject:
+  outputs:
+    dev:
+      account: XDSNKVW-SH15403
+      database: E_COMMERCE_DB
+      password: dbtPassword123
+      role: DE_TRANSFORM
+      schema: raw
+      threads: 1
+      type: snowflake
+      user: de_dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
+insurance_dbt:
+  outputs:
+    dev:
+      account: FBLJRTG-FI70366
+      database: INUSRANCE_DB
+      password: dbt_user2026
+      role: DE_TRANSFORM
+      schema: raw
+      threads: 1
+      type: snowflake
+      user: dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
